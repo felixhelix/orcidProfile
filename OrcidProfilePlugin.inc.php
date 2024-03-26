@@ -845,11 +845,22 @@ class OrcidProfilePlugin extends GenericPlugin {
 		/** @var $submission Submission */
 
 		$request = PKPApplication::get()->getRequest();
-
+		
 		switch ($newPublication->getData('status')) {
 			case STATUS_PUBLISHED:
 			case STATUS_SCHEDULED:
 				$this->logInfo("Expected publication status (5 or 3):  ".$newPublication->getData('status'));
+				$oprPlugin = PluginRegistry::getPlugin('generic', 'OpenPeerReviewPlugin');
+				$contextId = $request->getContext()->getId();	
+				if ($oprPlugin && $oprPlugin->getEnabled($contextId)) {
+					// check if the section of the submission is  not in section review
+					$reviewSectionId = $oprPlugin->getSetting($contextId, 'sectionId');
+					$publicationSectionId = $newPublication->getData('sectionId');
+					// $this->logInfo("Expected publication must not be in section review (" . $reviewSectionId ."):  " .$newPublication->getData('sectionId'));
+					// if ($reviewSectionId == $publicationSectionId) {
+					//	break;
+					//}
+				}
 				$this->publishAuthorWorkToOrcid($newPublication, $request);
 				break;
 		}
@@ -959,6 +970,10 @@ class OrcidProfilePlugin extends GenericPlugin {
 			$this->logInfo("Member API disabled");
 			return false;
 		}
+
+		// Hook for the openPeerReview Plugin to block publishing of peer reviews 
+		if (HookRegistry::call('OrcidProfilePlugin::publishAuthorWorkToOrcid', $submissionId)) return false;
+
 
 		$issueId = $publication->getData('issueId');
 		if (isset($issueId)) {
@@ -1369,16 +1384,18 @@ class OrcidProfilePlugin extends GenericPlugin {
 				}
 
 				# Add issue ids if they exist
+				if ($issue) {
 				$pubId = $issue->getStoredPubId($pubIdType);
-				if ($pubId) {
-					$externalIds[] = [
-						'external-id-type' => self::PUBID_TO_ORCID_EXT_ID[$pubIdType],
-						'external-id-value' => $pubId,
-						'external-id-url' => [
-							'value' => $plugin->getResolvingURL($contextId, $pubId)
-						],
-						'external-id-relationship' => 'part-of'
-					];
+					if ($pubId) {
+						$externalIds[] = [
+							'external-id-type' => self::PUBID_TO_ORCID_EXT_ID[$pubIdType],
+							'external-id-value' => $pubId,
+							'external-id-url' => [
+								'value' => $plugin->getResolvingURL($contextId, $pubId)
+							],
+							'external-id-relationship' => 'part-of'
+						];
+					}
 				}
 			}
 		} else {
