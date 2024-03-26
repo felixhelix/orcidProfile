@@ -850,17 +850,6 @@ class OrcidProfilePlugin extends GenericPlugin {
 			case STATUS_PUBLISHED:
 			case STATUS_SCHEDULED:
 				$this->logInfo("Expected publication status (5 or 3):  ".$newPublication->getData('status'));
-				$oprPlugin = PluginRegistry::getPlugin('generic', 'OpenPeerReviewPlugin');
-				$contextId = $request->getContext()->getId();	
-				if ($oprPlugin && $oprPlugin->getEnabled($contextId)) {
-					// check if the section of the submission is  not in section review
-					$reviewSectionId = $oprPlugin->getSetting($contextId, 'sectionId');
-					$publicationSectionId = $newPublication->getData('sectionId');
-					// $this->logInfo("Expected publication must not be in section review (" . $reviewSectionId ."):  " .$newPublication->getData('sectionId'));
-					// if ($reviewSectionId == $publicationSectionId) {
-					//	break;
-					//}
-				}
 				$this->publishAuthorWorkToOrcid($newPublication, $request);
 				break;
 		}
