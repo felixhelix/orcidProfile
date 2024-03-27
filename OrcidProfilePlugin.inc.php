@@ -142,6 +142,11 @@ class OrcidProfilePlugin extends GenericPlugin {
 				'writeOnly' => 'true',
 				'validation' => ['nullable']
 			];
+			$schema->properties->orcidReviewPutCode = (object)[
+				'type' => 'string',
+				'writeOnly' => 'true',
+				'validation' => ['nullable']
+			];			
 		});
 		return $success;
 	}
