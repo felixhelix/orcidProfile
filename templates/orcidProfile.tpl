@@ -11,15 +11,20 @@
  *}
 
 {capture name=orcidButton assign=orcidButton}
-<button id="connect-orcid-button" class="cmp_button" onclick="return openORCID();">
-	{$orcidIcon}
-	{if $orcid && !$orcidAuthenticated}
-	{translate key='plugins.generic.orcidProfile.authorise'}
-	{else}
-	{translate key='plugins.generic.orcidProfile.connect'}
-	{/if}
-</button>
-<a href="{url router="page" page="orcidapi" op="about"}">{translate key='plugins.generic.orcidProfile.about.title'}</a>
+<div id="connect-orcid-button">
+	<div>
+	{translate key='plugins.generic.orcidProfile.orcidConnectInfo'}
+	</div>
+	<button class="uppercase text-base font-semibold rounded-md border-2 px-3 py-2 shadow-lg hover:border-green-500" onclick="return openORCID();">
+		{$orcidIcon}
+		{if $orcid && !$orcidAuthenticated}
+		{translate key='plugins.generic.orcidProfile.authorise'}
+		{else}
+		{translate key='plugins.generic.orcidProfile.connect'}
+		{/if}
+	</button>
+	<a href="{url router="page" page="orcidapi" op="about"}" target="_blank" class="underline">{translate key='plugins.generic.orcidProfile.about.title'}</a>
+</div>
 {/capture}
 
 
