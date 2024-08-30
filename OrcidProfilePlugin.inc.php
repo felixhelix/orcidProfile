@@ -78,6 +78,7 @@ class OrcidProfilePlugin extends GenericPlugin {
 
 		// Handle ORCID on user registration
 		HookRegistry::register('registrationform::execute', array($this, 'collectUserOrcidId'));
+		HookRegistry::register('openid::registerUser', array($this, 'collectUserOrcidId')); 
 
 		// Send emails to authors without ORCID id upon submission
 		HookRegistry::register('submissionsubmitstep3form::execute', array($this, 'handleSubmissionSubmitStep3FormExecute'));
@@ -290,6 +291,12 @@ class OrcidProfilePlugin extends GenericPlugin {
 			)
 		);
 
+        switch ($template) {
+            case 'plugins-1-plugins-generic-openid-generic-openid:authStep2.tpl': // frontend/pages/userRegister.tpl
+                $templateMgr->registerFilter('output', $this->registrationFilter(...));
+                break;
+        }
+
 		return false;
 	}
 
@@ -313,7 +320,7 @@ class OrcidProfilePlugin extends GenericPlugin {
 		$request = Application::get()->getRequest();
 		$context = $request->getContext();
 		if ($context != null) {
-			if (preg_match('/<form[^>]+id="register"[^>]+>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
+			if (preg_match('/<form[^>]+id="oauth"[^>]+>/', $output, $matches, PREG_OFFSET_CAPTURE)) {
 				$match = $matches[0][0];
 				$offset = $matches[0][1];
 				$targetOp = 'register';
@@ -606,7 +613,8 @@ class OrcidProfilePlugin extends GenericPlugin {
 	 */
 	function collectUserOrcidId($hookName, $params) {
 		$form = $params[0];
-		$user = $form->user;
+		// $user = $form->user;
+		$user = $params[1];
 
 		$form->readUserVars(array('orcid','orcidAccessToken','orcidAccessScope','orcidRefreshToken','orcidAccessExpiresOn','orcidSandbox'));
 		$user->setOrcid($form->getData('orcid'));
