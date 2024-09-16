@@ -159,7 +159,7 @@ msgid "plugins.generic.orcidProfile.authorise"
 msgstr "Authorise and Connect your ORCID iD"
 
 msgid "plugins.generic.orcidProfile.about.title"
-msgstr "How we use ORCID"
+msgstr "(How we use ORCID)"
 
 msgid "plugins.generic.orcidProfile.about.orcidExplanation"
 msgstr "ORCID is an independent non-profit organization that provides a persistent identifier – an ORCID iD – that distinguishes you from other researchers and a mechanism for linking your research outputs and activities to your iD. ORCID is integrated into many systems used by publishers, funders, institutions, and other research-related services. Learn more at <a href=\"https://orcid.org\">orcid.org</a>."
@@ -230,4 +230,4 @@ msgid "plugins.generic.orcidProfile.verify.hasUnauthenticatedOrcid"
 msgstr "Unauthenticated ORCiDs for contributors detected."
 
 msgid "plugins.generic.orcidProfile.orcidConnectInfo"
-msgstr "For SOCIOS to update your orcid profile, you have to connect your accounts: <br/>Use the button below to log into your ORCID account and grant access." 
+msgstr "For SOCIOS to update your orcid profile, you have to connect your accounts: <br/>Use the button below to log into your ORCID account and grant access " 

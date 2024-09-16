@@ -11,9 +11,9 @@
  *}
 
 {capture name=orcidButton assign=orcidButton}
-<div id="connect-orcid-button">
-	<div>
-	{translate key='plugins.generic.orcidProfile.orcidConnectInfo'}
+<div id="connect-orcid-button" class="pb-4">
+	<div class="pb-4">
+	{translate key='plugins.generic.orcidProfile.orcidConnectInfo'} <a href="{url router="page" page="orcidapi" op="about"}" target="_blank" class="underline">{translate key='plugins.generic.orcidProfile.about.title'}</a>.
 	</div>
 	<button class="uppercase text-base font-semibold rounded-md border-2 px-3 py-2 shadow-lg hover:border-green-500" onclick="return openORCID();">
 		{$orcidIcon}
@@ -23,7 +23,6 @@
 		{translate key='plugins.generic.orcidProfile.connect'}
 		{/if}
 	</button>
-	<a href="{url router="page" page="orcidapi" op="about"}" target="_blank" class="underline">{translate key='plugins.generic.orcidProfile.about.title'}</a>
 </div>
 {/capture}
 
